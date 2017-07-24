@@ -26,6 +26,7 @@ router.use((req,res,next)=>{
    next();
 })
 
+// 注册验证
 router.post('/user/register',(req,res,next)=>{
 //	console.log(req.body)         //{ username: 'lyy', password: '123', repassword: '123' }
 	let username = req.body.username;
@@ -71,7 +72,48 @@ router.post('/user/register',(req,res,next)=>{
 		responsdata.mesages = "注册成功！"
 	    res.json(responsdata);
 	})
-
+});
+/*
+* 用户登录
+*   注册逻辑
+*
+*   1.用户名不能为空
+*   2.密码不能为空
+*   
+*   1.与数据库中的数据一致
+*       数据库查询
+*
+* */
+router.post('/user/login',(req,res,next)=>{
+	let username = req.body.username;
+	let password = req.body.password;
+	if(username=='' || password==''){
+		responsdata.code = 5;
+		responsdata.mesages = "用户名和密码不能为空！"
+	    res.json(responsdata);
+	    return;
+	};
+	User.findOne({
+		username: username,
+		password: password
+	}).then((userInfo)=>{
+		console.log(userInfo)
+		if(userInfo){
+			responsdata.mesages = "登录成功！"
+			responsdata.userInfo = {
+				_id: userInfo._id,
+				uername: userInfo.uername
+			}
+	        res.json(responsdata);
+		}else{
+			responsdata.code = 6;
+			responsdata.mesages = "用户名或密码错误！"
+	        res.json(responsdata);
+	        return
+		}
+		
+	})
 })
+
 
 module.exports = router
