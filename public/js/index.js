@@ -34,8 +34,9 @@ $(function(){
 				$registerBox.find('.textCenter').html(results.mesages)
 				if(results.code==0){
 				    setTimeout(()=>{
-				   	   $registerBox.hide();
-		               $loginBox.show()
+//				   	   $registerBox.hide();
+//		               $loginBox.show()
+                       window.location.reload()
 				    },1000)
 				}
 			}
@@ -56,13 +57,20 @@ $(function(){
 			success(results){
 				//console.log(results)
 				$loginBox.find('.textCenter').html(results.mesages)
-				if(results.code==0){
-					setTimeout(()=>{
-						$loginBox.hide()
-					    $userInfo.show()
-					    $userInfo.find('.username').html(results.userInfo.username);
-					    $userInfo.find('.info').html('你好，欢迎光临我的博客')
-				    },1000)
+				setTimeout(()=>{
+				    window.location.reload()
+				},1000)
+			}
+		})
+	})
+	// 登录 退出
+	$('#logout').on('click',()=>{
+		$.ajax({
+			url: '/api/user/logout',
+			success(results){
+				console.log(results)
+				if(!results.code){      // 意思是 只要   results.code=0就加载
+					window.location.reload()
 				}
 			}
 		})

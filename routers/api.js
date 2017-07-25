@@ -70,6 +70,10 @@ router.post('/user/register',(req,res,next)=>{
 		return user.save();
 	}).then((newUserInfo)=>{
 		responsdata.mesages = "注册成功！"
+		req.cookies.set('userInfo',JSON.stringify({    //  设置cookie
+			_id: newUserInfo._id,
+			username: newUserInfo.username
+		}));
 	    res.json(responsdata);
 	})
 });
@@ -97,13 +101,17 @@ router.post('/user/login',(req,res,next)=>{
 		username: username,
 		password: password
 	}).then((userInfo)=>{
-		console.log(userInfo)
+	//	console.log(userInfo)
 		if(userInfo){
 			responsdata.mesages = "登录成功！"
 			responsdata.userInfo = {
 				_id: userInfo._id,
-				uername: userInfo.uername
-			}
+				username: userInfo.username
+			};
+			req.cookies.set('userInfo',JSON.stringify({    //  设置cookie
+				_id: userInfo._id,
+				username: userInfo.username
+			}));
 	        res.json(responsdata);
 		}else{
 			responsdata.code = 6;
@@ -111,8 +119,12 @@ router.post('/user/login',(req,res,next)=>{
 	        res.json(responsdata);
 	        return
 		}
-		
 	})
+})
+// 登录退出
+router.get('/user/logout',(req,res,next)=>{
+    req.cookies.set('userInfo',null);
+    res.json(responsdata);
 })
 
 

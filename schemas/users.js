@@ -9,7 +9,12 @@ let schema = new mongoose.Schema({              //  new 出来的对象 就是�
 	// 用户名
 	username: String,    //  类型 是字符串
 	// 密码
-	password: String
+	password: String,
+	// 是不是管理员
+	isAdmin: {
+		type: Boolean,
+		default: false
+	}
 })
 
 
