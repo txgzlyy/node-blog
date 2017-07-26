@@ -1,4 +1,3 @@
-
 /*
  *  定义数据库结构  
  */
@@ -7,15 +6,9 @@ let mongoose = require('mongoose');
 
 //  定义用户表
 let schema = new mongoose.Schema({              //  new 出来的对象 就是一个表结构
-	// 用户名
-	username: String,    //  类型 是字符串
-	// 密码
-	password: String,
-	// 是不是管理员
-	isAdmin: {
-		type: Boolean,
-		default: false
-	}
+	// 分类名
+	name: String,    //  类型 是字符串
+
 })
 
 

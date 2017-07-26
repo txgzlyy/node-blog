@@ -2,9 +2,11 @@ let express = require('express');
 
 let router = express.Router();
 
-let User = require("../models/User")
+let User = require("../models/User");
+let Fclass = require("../models/Fclass");
 
 router.use((req,res,next)=>{
+	//console.log(req.userInfo)
 	if(!req.userInfo.isAdmin){
 		res.send('对不起，只有管理员有权限进入！');
 		return;
@@ -53,13 +55,48 @@ router.get('/user',(req,res,next)=>{
 				pages: pages
 			});
 		})
+	});	
+});
+
+// 分类管理
+router.get('/fclass_index',(req,res,next)=>{
+	res.render('admin/fclass_index',{
+		userInfo: req.userInfo
 	});
-	 
-	
-	
-	
-	
-})
+});
+
+// 添加分类
+router.get('/fclass_add',(req,res,next)=>{
+	res.render('admin/fclass_add',{
+		userInfo: req.userInfo
+	});
+});
+
+router.post('/fclass_add',(req,res)=>{
+	let name = req.body.name;
+	Fclass.findOne({
+		name:name
+	}).then((rs)=>{
+		if(rs){
+			// 数据库中已有该数据
+			res.render('admin/error',{
+				userInfo: req.userInfo,
+				mesages: '该分类已存在！'
+			}) 
+			return Promise.reject(); // 返回  Promise.reject()对象
+		};
+		//没有就保存
+		return new Fclass({
+			name: name
+		}).save();
+	}).then((newFclass)=>{
+		res.render('admin/success',{
+			userInfo: req.userInfo,
+			mesages: '分类添加成功！',
+			url: '/admin/fclass_add'
+		}) 
+	})
+});
 
 
 

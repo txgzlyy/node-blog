@@ -38,8 +38,8 @@ app.use((req, res, next) => {
 			req.userInfo = JSON.parse(req.cookies.get('userInfo'));
 			
 			// 获取当前登录的用户类型
-			User.findById(req.userInfo._id).then((userInfo)=>{
-				req.userInfo.isAdmin = Boolean(userInfo.isAdmin)  //  转成 布尔值
+			User.findById(req.userInfo._id).then((rs)=>{
+				req.userInfo.isAdmin = Boolean(rs.isAdmin)  //  转成 布尔值
 				next()
 			})
 		} catch(e) {
