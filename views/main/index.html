@@ -20,13 +20,9 @@
     <div class="menu">
       
         <a href="/" class="focus">首页</a>
-        <a href="/">HTML</a>
-        <a href="/">CSS</a>
-        <a href="/">JavaScript</a>
-        <a href="/">PHP</a>
-        <a href="/">Express</a>
-        <a href="/">Web开发</a>
-        <a href="/">NodeJs</a>
+        {% for rs in result %}
+        <a href="/">{{rs.name}}</a>
+        {% endfor %}
     </div>
 </nav>
 
