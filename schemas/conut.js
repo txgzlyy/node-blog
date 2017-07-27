@@ -1,0 +1,36 @@
+/*
+ *  定义数据库结构  
+ */
+
+let mongoose = require('mongoose');
+
+//  定义类容表结构
+let conut = new mongoose.Schema({              //  new 出来的对象 就是一个表结构
+	//关联字段 - 内容分类的id
+    fclass: {
+        //类型
+        type: mongoose.Schema.Types.ObjectId,
+        //引用
+        ref: 'Fclass'
+    },
+	title: String,    //  类型 是字符串
+	
+    discription: {
+    	type: String,
+    	default: ''
+    },
+    main: {
+    	type: String,
+    	default: ''
+    }
+})
+
+
+module.exports = conut
+/*
+ * 我们一般不是直接操作数据表
+ * 
+ * 而是通过对模型类的修改来控制表      模型类文件在  models 文件夹中
+ * 
+ * 
+ */

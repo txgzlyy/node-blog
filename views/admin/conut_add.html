@@ -1,0 +1,42 @@
+{% extends 'layout.html' %}
+
+{% block main %} 
+<div class="container-fluid">
+	<ol class="breadcrumb">
+	  <li><a href="/admin/fclass/index">类容首页</a></li>
+	  <li><span>添加类容</span></li>
+	</ol>
+
+	<form method="post">
+		
+	  <div class="form-group" >
+	    <label for="title">选择分类</label>
+	    <select name="fclass" id="fclass" class="form-control">
+	    	{% for fclass in Fclasses %}
+	    	<option value="{{fclass.id}}">{{fclass.name}}</option>
+	    	{% endfor %}
+	    </select>
+	  </div>
+		
+	  <div class="form-group" >
+	    <label for="title">添加类容标题</label>
+	    <input type="text" class="form-control" id="title" placeholder="输入类容标题" name="title">
+	  </div>
+	  
+	  <div class="form-group" >
+	    <label for="discription">添加类容简介</label>
+	    <textarea type="text" class="form-control" rows="5" id="discription" placeholder="输入类容简介" name="discription"></textarea>
+	  </div>
+	  
+	  <div class="form-group" >
+	    <label for="main">添加类容</label>
+	    <textarea type="text" class="form-control" rows="10" id="main" placeholder="输入类容" name="main"></textarea>
+	  </div>
+
+	  <button type="submit" class="btn btn-default">添加</button>
+	</form>
+
+</div>
+
+{% endblock %}
+		
