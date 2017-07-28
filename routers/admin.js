@@ -244,7 +244,7 @@ router.get('/conut',(req,res)=>{
     	 *  sort({_id: -1})  
     	 *  1 是升序  默认排序
     	 */
-		Conut.find().sort({_id: -1}).limit(limit).skip(skip).populate("fclass").then((Conut)=>{       // User.find()   User.count()  是异步的
+		Conut.find().sort({_id: -1}).limit(limit).skip(skip).populate(["fclass","user"]).then((Conut)=>{       // User.find()   User.count()  是异步的
 		
 			res.render('admin/conut_index',{
 				userInfo: req.userInfo,
@@ -307,6 +307,7 @@ router.post('/conut/add',(req,res)=>{
      
        
     Conut.findOne(req.body).then((conut)=>{
+    	
     	if(conut){
     		res.render('admin/error',{
 				userInfo: req.userInfo,
@@ -314,7 +315,13 @@ router.post('/conut/add',(req,res)=>{
 			});
 			return Promise.reject()
     	}else{
-    		return new Conut(req.body).save()
+    		return new Conut({
+    			fclass: req.body.fclass,
+		    	title: req.body.title,
+		    	discription: req.body.discription,
+		    	main: req.body.main,
+		    	user: req.userInfo._id.toString()
+    		}).save()
     	}
     }).then(()=>{
     	res.render('admin/success',{
@@ -325,8 +332,64 @@ router.post('/conut/add',(req,res)=>{
 });
 
 // 修改内容
+router.get('/conut/edit',(req,res)=>{
+	let id = req.query.id || '';
+	let fclasses = [];
+	Fclass.find().then((rs)=>{
+		if(!rs){
+			res.render('admin/error',{
+				userInfo: req.userInfo,
+				mesages: '该记录不存在！'
+			});
+			return Promise.reject()
+		}
+		fclasses = rs;
+		return Conut.findOne({
+				_id: id
+		}).populate('fclass');
+	}).then((count)=>{
+		if(!count){
+			res.render('admin/error',{
+				userInfo: req.userInfo,
+				mesages: '该条类容不存在！'
+			})
+			return Promise.reject()
+		}else{
+			res.render('admin/conut_edit',{
+				userInfo: req.userInfo,
+				fclasses: fclasses,
+				count: count
+			})
+		}
+	})
+});
+// 保存修改类容
+router.post('/conut/edit',(req,res)=>{
+	let id = req.query.id;
+	Conut.update({
+		_id:id
+	},req.body).then(()=>{
+		res.render('admin/success',{
+			userInfo: req.userInfo,
+			mesages: '编辑类容成功！',
+			url: '/admin/conut'
+		})
+	})
+})
 
 // 删除内容
+router.get('/conut/dele',(req,res)=>{
+	let id = req.query.id;
+	Conut.remove({
+		_id:id
+	}).then(()=>{
+		res.render('admin/success',{
+			userInfo: req.userInfo,
+			mesages: '删除类容成功！',
+			url: '/admin/conut'
+		})
+	})
+})
 
 
 module.exports = router

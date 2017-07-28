@@ -13,6 +13,23 @@ let conut = new mongoose.Schema({              //  new 出来的对象 就是一
         //引用
         ref: 'Fclass'
     },
+    //关联字段 
+    user: {
+         // 作者
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    //新建日期
+    addTime:{
+    	type: Date,
+    	default: new Date()
+    },
+    // 阅读量
+    views:{
+    	type: Number,
+    	default: 0
+    },
+    
 	title: String,    //  类型 是字符串
 	
     discription: {
