@@ -39,6 +39,10 @@ let conut = new mongoose.Schema({              //  new 出来的对象 就是一
     main: {
     	type: String,
     	default: ''
+    },
+    comments:{
+    	type: Array,
+    	default: []
     }
 })
 

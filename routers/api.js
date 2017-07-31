@@ -4,6 +4,7 @@ let router = express.Router();
 
 // 引入操作数据表的模型类
 let User = require('../models/User')
+let Conut = require('../models/Conut')
 
 /*
 * 用户注册
@@ -127,5 +128,28 @@ router.get('/user/logout',(req,res,next)=>{
     res.json(responsdata);
 })
 
+/*
+ * 评论
+ */
+router.post('/comment/post',(req,res,next)=>{
+	let contentId = req.body.contentId;
+	
+	let commentData = {
+		username: req.userInfo.username,
+		commentTime: new Date(),
+		content: req.body.content
+	};
+	Conut.findOne({
+		_id :contentId
+	}).then((content)=>{
+		content.comments.push(commentData);
+		return content.save()
+	}).then((newconut)=>{
+		responsdata.data = newconut;
+		responsdata.mesages = '评论成功';
+		res.json(responsdata);
+	})
+	
+})
 
 module.exports = router
