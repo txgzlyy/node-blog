@@ -20,5 +20,6 @@ nodeJS开发的博客
 
 2,开启 mongoodb 数据库 也可以像我一样把数据库放到根目录的db文件夹里面
 
+3,node启动入口文件 app.js  成功后 访问 localhost：8080  就可以了
 
 
