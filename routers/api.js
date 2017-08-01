@@ -128,6 +128,26 @@ router.get('/user/logout',(req,res,next)=>{
     res.json(responsdata);
 })
 
+
+/*
+ * 加载评论
+ */
+
+router.get('/comment',(req,res)=>{
+	//console.log(req)       
+	Conut.findOne({
+		_id: req.query.contentId             // get 接收用query
+	}).then((rs)=>{
+		responsdata.data = rs;
+		res.json(responsdata);
+	})
+})
+
+
+
+
+
+
 /*
  * 评论
  */

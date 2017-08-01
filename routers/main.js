@@ -22,7 +22,7 @@ router.get('/',(req,res,next)=>{
 	
 	data.count = 0,
 	data.page = Number(req.query.page || 1),
-	data.limit =  1 ,               //  每页显示条数
+	data.limit =  5 ,               //  每页显示条数
     data.pages = 0,
     data.conuts = [],
     data.fclass = req.query.fclass || ''
